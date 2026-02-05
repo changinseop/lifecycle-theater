@@ -1,0 +1,2027 @@
+{
+  "backtest": {
+    "periods": [
+      {
+        "train_months": "0-5",
+        "test_month": 6,
+        "horizon": "1m",
+        "accuracy": 0.6452,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 938,
+            "ratio": 0.3752
+          },
+          "loyal": {
+            "count": 347,
+            "ratio": 0.1388
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 568,
+            "ratio": 0.2272
+          },
+          "churn": {
+            "count": 578,
+            "ratio": 0.2312
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1188,
+            "ratio": 0.4752
+          },
+          "loyal": {
+            "count": 374,
+            "ratio": 0.1496
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 218,
+            "ratio": 0.0872
+          },
+          "churn": {
+            "count": 650,
+            "ratio": 0.26
+          }
+        }
+      },
+      {
+        "train_months": "0-8",
+        "test_month": 9,
+        "horizon": "1m",
+        "accuracy": 0.6764,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 944,
+            "ratio": 0.3776
+          },
+          "loyal": {
+            "count": 372,
+            "ratio": 0.1488
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 543,
+            "ratio": 0.2172
+          },
+          "churn": {
+            "count": 573,
+            "ratio": 0.2292
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1150,
+            "ratio": 0.46
+          },
+          "loyal": {
+            "count": 387,
+            "ratio": 0.1548
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 249,
+            "ratio": 0.0996
+          },
+          "churn": {
+            "count": 646,
+            "ratio": 0.2584
+          }
+        }
+      },
+      {
+        "train_months": "0-11",
+        "test_month": 12,
+        "horizon": "1m",
+        "accuracy": 0.676,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1013,
+            "ratio": 0.4052
+          },
+          "loyal": {
+            "count": 374,
+            "ratio": 0.1496
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 531,
+            "ratio": 0.2124
+          },
+          "churn": {
+            "count": 512,
+            "ratio": 0.2048
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1161,
+            "ratio": 0.4644
+          },
+          "loyal": {
+            "count": 379,
+            "ratio": 0.1516
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 265,
+            "ratio": 0.106
+          },
+          "churn": {
+            "count": 626,
+            "ratio": 0.2504
+          }
+        }
+      },
+      {
+        "train_months": "0-14",
+        "test_month": 15,
+        "horizon": "1m",
+        "accuracy": 0.6556,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 998,
+            "ratio": 0.3992
+          },
+          "loyal": {
+            "count": 355,
+            "ratio": 0.142
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 591,
+            "ratio": 0.2364
+          },
+          "churn": {
+            "count": 487,
+            "ratio": 0.1948
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1117,
+            "ratio": 0.4468
+          },
+          "loyal": {
+            "count": 393,
+            "ratio": 0.1572
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 278,
+            "ratio": 0.1112
+          },
+          "churn": {
+            "count": 642,
+            "ratio": 0.2568
+          }
+        }
+      },
+      {
+        "train_months": "0-17",
+        "test_month": 18,
+        "horizon": "1m",
+        "accuracy": 0.654,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1015,
+            "ratio": 0.406
+          },
+          "loyal": {
+            "count": 359,
+            "ratio": 0.1436
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 554,
+            "ratio": 0.2216
+          },
+          "churn": {
+            "count": 503,
+            "ratio": 0.2012
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1077,
+            "ratio": 0.4308
+          },
+          "loyal": {
+            "count": 391,
+            "ratio": 0.1564
+          },
+          "vip": {
+            "count": 66,
+            "ratio": 0.0264
+          },
+          "risk": {
+            "count": 293,
+            "ratio": 0.1172
+          },
+          "churn": {
+            "count": 673,
+            "ratio": 0.2692
+          }
+        }
+      },
+      {
+        "train_months": "0-5",
+        "test_month": 6,
+        "horizon": "3m",
+        "accuracy": 0.656,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 941,
+            "ratio": 0.3764
+          },
+          "loyal": {
+            "count": 366,
+            "ratio": 0.1464
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 571,
+            "ratio": 0.2284
+          },
+          "churn": {
+            "count": 553,
+            "ratio": 0.2212
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1208,
+            "ratio": 0.4832
+          },
+          "loyal": {
+            "count": 383,
+            "ratio": 0.1532
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 186,
+            "ratio": 0.0744
+          },
+          "churn": {
+            "count": 653,
+            "ratio": 0.2612
+          }
+        }
+      },
+      {
+        "train_months": "0-8",
+        "test_month": 9,
+        "horizon": "3m",
+        "accuracy": 0.6756,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 997,
+            "ratio": 0.3988
+          },
+          "loyal": {
+            "count": 364,
+            "ratio": 0.1456
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 546,
+            "ratio": 0.2184
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1161,
+            "ratio": 0.4644
+          },
+          "loyal": {
+            "count": 388,
+            "ratio": 0.1552
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 232,
+            "ratio": 0.0928
+          },
+          "churn": {
+            "count": 650,
+            "ratio": 0.26
+          }
+        }
+      },
+      {
+        "train_months": "0-11",
+        "test_month": 12,
+        "horizon": "3m",
+        "accuracy": 0.6504,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 970,
+            "ratio": 0.388
+          },
+          "loyal": {
+            "count": 368,
+            "ratio": 0.1472
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 580,
+            "ratio": 0.232
+          },
+          "churn": {
+            "count": 513,
+            "ratio": 0.2052
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1106,
+            "ratio": 0.4424
+          },
+          "loyal": {
+            "count": 384,
+            "ratio": 0.1536
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 273,
+            "ratio": 0.1092
+          },
+          "churn": {
+            "count": 668,
+            "ratio": 0.2672
+          }
+        }
+      },
+      {
+        "train_months": "0-14",
+        "test_month": 15,
+        "horizon": "3m",
+        "accuracy": 0.6692,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1016,
+            "ratio": 0.4064
+          },
+          "loyal": {
+            "count": 366,
+            "ratio": 0.1464
+          },
+          "vip": {
+            "count": 66,
+            "ratio": 0.0264
+          },
+          "risk": {
+            "count": 523,
+            "ratio": 0.2092
+          },
+          "churn": {
+            "count": 529,
+            "ratio": 0.2116
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1079,
+            "ratio": 0.4316
+          },
+          "loyal": {
+            "count": 389,
+            "ratio": 0.1556
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 294,
+            "ratio": 0.1176
+          },
+          "churn": {
+            "count": 668,
+            "ratio": 0.2672
+          }
+        }
+      },
+      {
+        "train_months": "0-17",
+        "test_month": 18,
+        "horizon": "3m",
+        "accuracy": 0.6444,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1025,
+            "ratio": 0.41
+          },
+          "loyal": {
+            "count": 367,
+            "ratio": 0.1468
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 514,
+            "ratio": 0.2056
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1074,
+            "ratio": 0.4296
+          },
+          "loyal": {
+            "count": 394,
+            "ratio": 0.1576
+          },
+          "vip": {
+            "count": 66,
+            "ratio": 0.0264
+          },
+          "risk": {
+            "count": 226,
+            "ratio": 0.0904
+          },
+          "churn": {
+            "count": 740,
+            "ratio": 0.296
+          }
+        }
+      },
+      {
+        "train_months": "0-5",
+        "test_month": 6,
+        "horizon": "6m",
+        "accuracy": 0.6752,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 997,
+            "ratio": 0.3988
+          },
+          "loyal": {
+            "count": 364,
+            "ratio": 0.1456
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 546,
+            "ratio": 0.2184
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1207,
+            "ratio": 0.4828
+          },
+          "loyal": {
+            "count": 379,
+            "ratio": 0.1516
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 203,
+            "ratio": 0.0812
+          },
+          "churn": {
+            "count": 642,
+            "ratio": 0.2568
+          }
+        }
+      },
+      {
+        "train_months": "0-8",
+        "test_month": 9,
+        "horizon": "6m",
+        "accuracy": 0.6436,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 970,
+            "ratio": 0.388
+          },
+          "loyal": {
+            "count": 368,
+            "ratio": 0.1472
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 580,
+            "ratio": 0.232
+          },
+          "churn": {
+            "count": 513,
+            "ratio": 0.2052
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1146,
+            "ratio": 0.4584
+          },
+          "loyal": {
+            "count": 388,
+            "ratio": 0.1552
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 226,
+            "ratio": 0.0904
+          },
+          "churn": {
+            "count": 671,
+            "ratio": 0.2684
+          }
+        }
+      },
+      {
+        "train_months": "0-11",
+        "test_month": 12,
+        "horizon": "6m",
+        "accuracy": 0.6704,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1016,
+            "ratio": 0.4064
+          },
+          "loyal": {
+            "count": 366,
+            "ratio": 0.1464
+          },
+          "vip": {
+            "count": 66,
+            "ratio": 0.0264
+          },
+          "risk": {
+            "count": 523,
+            "ratio": 0.2092
+          },
+          "churn": {
+            "count": 529,
+            "ratio": 0.2116
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1119,
+            "ratio": 0.4476
+          },
+          "loyal": {
+            "count": 386,
+            "ratio": 0.1544
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 241,
+            "ratio": 0.0964
+          },
+          "churn": {
+            "count": 685,
+            "ratio": 0.274
+          }
+        }
+      },
+      {
+        "train_months": "0-14",
+        "test_month": 15,
+        "horizon": "6m",
+        "accuracy": 0.6404,
+        "n_test": 2500,
+        "actual_distribution": {
+          "active": {
+            "count": 1025,
+            "ratio": 0.41
+          },
+          "loyal": {
+            "count": 367,
+            "ratio": 0.1468
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 514,
+            "ratio": 0.2056
+          }
+        },
+        "predicted_distribution": {
+          "active": {
+            "count": 1106,
+            "ratio": 0.4424
+          },
+          "loyal": {
+            "count": 395,
+            "ratio": 0.158
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 171,
+            "ratio": 0.0684
+          },
+          "churn": {
+            "count": 759,
+            "ratio": 0.3036
+          }
+        }
+      }
+    ],
+    "overall_accuracy": {
+      "1m": 0.6614,
+      "3m": 0.6591,
+      "6m": 0.6574
+    }
+  },
+  "future": {
+    "current_month": 21,
+    "current_distribution": {
+      "active": {
+        "count": 1025,
+        "ratio": 0.41
+      },
+      "loyal": {
+        "count": 367,
+        "ratio": 0.1468
+      },
+      "vip": {
+        "count": 69,
+        "ratio": 0.0276
+      },
+      "risk": {
+        "count": 525,
+        "ratio": 0.21
+      },
+      "churn": {
+        "count": 514,
+        "ratio": 0.2056
+      }
+    },
+    "projected": {
+      "1m": {
+        "active": {
+          "count": 1183,
+          "ratio": 0.4732
+        },
+        "loyal": {
+          "count": 388,
+          "ratio": 0.1552
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 167,
+          "ratio": 0.0668
+        },
+        "churn": {
+          "count": 694,
+          "ratio": 0.2776
+        }
+      },
+      "3m": {
+        "active": {
+          "count": 1027,
+          "ratio": 0.4108
+        },
+        "loyal": {
+          "count": 386,
+          "ratio": 0.1544
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 192,
+          "ratio": 0.0768
+        },
+        "churn": {
+          "count": 827,
+          "ratio": 0.3308
+        }
+      },
+      "6m": {
+        "active": {
+          "count": 968,
+          "ratio": 0.3872
+        },
+        "loyal": {
+          "count": 383,
+          "ratio": 0.1532
+        },
+        "vip": {
+          "count": 69,
+          "ratio": 0.0276
+        },
+        "risk": {
+          "count": 75,
+          "ratio": 0.03
+        },
+        "churn": {
+          "count": 1005,
+          "ratio": 0.402
+        }
+      }
+    },
+    "monthly_actual": [
+      {
+        "month": 0,
+        "distribution": {
+          "active": {
+            "count": 2237,
+            "ratio": 0.8948
+          },
+          "loyal": {
+            "count": 64,
+            "ratio": 0.0256
+          },
+          "vip": {
+            "count": 17,
+            "ratio": 0.0068
+          },
+          "risk": {
+            "count": 163,
+            "ratio": 0.0652
+          },
+          "churn": {
+            "count": 19,
+            "ratio": 0.0076
+          }
+        }
+      },
+      {
+        "month": 1,
+        "distribution": {
+          "active": {
+            "count": 1911,
+            "ratio": 0.7644
+          },
+          "loyal": {
+            "count": 129,
+            "ratio": 0.0516
+          },
+          "vip": {
+            "count": 29,
+            "ratio": 0.0116
+          },
+          "risk": {
+            "count": 287,
+            "ratio": 0.1148
+          },
+          "churn": {
+            "count": 144,
+            "ratio": 0.0576
+          }
+        }
+      },
+      {
+        "month": 2,
+        "distribution": {
+          "active": {
+            "count": 1508,
+            "ratio": 0.6032
+          },
+          "loyal": {
+            "count": 227,
+            "ratio": 0.0908
+          },
+          "vip": {
+            "count": 52,
+            "ratio": 0.0208
+          },
+          "risk": {
+            "count": 466,
+            "ratio": 0.1864
+          },
+          "churn": {
+            "count": 247,
+            "ratio": 0.0988
+          }
+        }
+      },
+      {
+        "month": 3,
+        "distribution": {
+          "active": {
+            "count": 1035,
+            "ratio": 0.414
+          },
+          "loyal": {
+            "count": 352,
+            "ratio": 0.1408
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 623,
+            "ratio": 0.2492
+          },
+          "churn": {
+            "count": 421,
+            "ratio": 0.1684
+          }
+        }
+      },
+      {
+        "month": 4,
+        "distribution": {
+          "active": {
+            "count": 985,
+            "ratio": 0.394
+          },
+          "loyal": {
+            "count": 351,
+            "ratio": 0.1404
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 530,
+            "ratio": 0.212
+          },
+          "churn": {
+            "count": 565,
+            "ratio": 0.226
+          }
+        }
+      },
+      {
+        "month": 5,
+        "distribution": {
+          "active": {
+            "count": 975,
+            "ratio": 0.39
+          },
+          "loyal": {
+            "count": 353,
+            "ratio": 0.1412
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 556,
+            "ratio": 0.2224
+          },
+          "churn": {
+            "count": 547,
+            "ratio": 0.2188
+          }
+        }
+      },
+      {
+        "month": 6,
+        "distribution": {
+          "active": {
+            "count": 971,
+            "ratio": 0.3884
+          },
+          "loyal": {
+            "count": 345,
+            "ratio": 0.138
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 554,
+            "ratio": 0.2216
+          },
+          "churn": {
+            "count": 561,
+            "ratio": 0.2244
+          }
+        }
+      },
+      {
+        "month": 7,
+        "distribution": {
+          "active": {
+            "count": 938,
+            "ratio": 0.3752
+          },
+          "loyal": {
+            "count": 347,
+            "ratio": 0.1388
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 568,
+            "ratio": 0.2272
+          },
+          "churn": {
+            "count": 578,
+            "ratio": 0.2312
+          }
+        }
+      },
+      {
+        "month": 8,
+        "distribution": {
+          "active": {
+            "count": 937,
+            "ratio": 0.3748
+          },
+          "loyal": {
+            "count": 363,
+            "ratio": 0.1452
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 557,
+            "ratio": 0.2228
+          },
+          "churn": {
+            "count": 574,
+            "ratio": 0.2296
+          }
+        }
+      },
+      {
+        "month": 9,
+        "distribution": {
+          "active": {
+            "count": 941,
+            "ratio": 0.3764
+          },
+          "loyal": {
+            "count": 366,
+            "ratio": 0.1464
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 571,
+            "ratio": 0.2284
+          },
+          "churn": {
+            "count": 553,
+            "ratio": 0.2212
+          }
+        }
+      },
+      {
+        "month": 10,
+        "distribution": {
+          "active": {
+            "count": 944,
+            "ratio": 0.3776
+          },
+          "loyal": {
+            "count": 372,
+            "ratio": 0.1488
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 543,
+            "ratio": 0.2172
+          },
+          "churn": {
+            "count": 573,
+            "ratio": 0.2292
+          }
+        }
+      },
+      {
+        "month": 11,
+        "distribution": {
+          "active": {
+            "count": 962,
+            "ratio": 0.3848
+          },
+          "loyal": {
+            "count": 357,
+            "ratio": 0.1428
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 539,
+            "ratio": 0.2156
+          },
+          "churn": {
+            "count": 572,
+            "ratio": 0.2288
+          }
+        }
+      },
+      {
+        "month": 12,
+        "distribution": {
+          "active": {
+            "count": 997,
+            "ratio": 0.3988
+          },
+          "loyal": {
+            "count": 364,
+            "ratio": 0.1456
+          },
+          "vip": {
+            "count": 68,
+            "ratio": 0.0272
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 546,
+            "ratio": 0.2184
+          }
+        }
+      },
+      {
+        "month": 13,
+        "distribution": {
+          "active": {
+            "count": 1013,
+            "ratio": 0.4052
+          },
+          "loyal": {
+            "count": 374,
+            "ratio": 0.1496
+          },
+          "vip": {
+            "count": 70,
+            "ratio": 0.028
+          },
+          "risk": {
+            "count": 531,
+            "ratio": 0.2124
+          },
+          "churn": {
+            "count": 512,
+            "ratio": 0.2048
+          }
+        }
+      },
+      {
+        "month": 14,
+        "distribution": {
+          "active": {
+            "count": 976,
+            "ratio": 0.3904
+          },
+          "loyal": {
+            "count": 357,
+            "ratio": 0.1428
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 557,
+            "ratio": 0.2228
+          },
+          "churn": {
+            "count": 541,
+            "ratio": 0.2164
+          }
+        }
+      },
+      {
+        "month": 15,
+        "distribution": {
+          "active": {
+            "count": 970,
+            "ratio": 0.388
+          },
+          "loyal": {
+            "count": 368,
+            "ratio": 0.1472
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 580,
+            "ratio": 0.232
+          },
+          "churn": {
+            "count": 513,
+            "ratio": 0.2052
+          }
+        }
+      },
+      {
+        "month": 16,
+        "distribution": {
+          "active": {
+            "count": 998,
+            "ratio": 0.3992
+          },
+          "loyal": {
+            "count": 355,
+            "ratio": 0.142
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 591,
+            "ratio": 0.2364
+          },
+          "churn": {
+            "count": 487,
+            "ratio": 0.1948
+          }
+        }
+      },
+      {
+        "month": 17,
+        "distribution": {
+          "active": {
+            "count": 977,
+            "ratio": 0.3908
+          },
+          "loyal": {
+            "count": 362,
+            "ratio": 0.1448
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 544,
+            "ratio": 0.2176
+          },
+          "churn": {
+            "count": 548,
+            "ratio": 0.2192
+          }
+        }
+      },
+      {
+        "month": 18,
+        "distribution": {
+          "active": {
+            "count": 1016,
+            "ratio": 0.4064
+          },
+          "loyal": {
+            "count": 366,
+            "ratio": 0.1464
+          },
+          "vip": {
+            "count": 66,
+            "ratio": 0.0264
+          },
+          "risk": {
+            "count": 523,
+            "ratio": 0.2092
+          },
+          "churn": {
+            "count": 529,
+            "ratio": 0.2116
+          }
+        }
+      },
+      {
+        "month": 19,
+        "distribution": {
+          "active": {
+            "count": 1015,
+            "ratio": 0.406
+          },
+          "loyal": {
+            "count": 359,
+            "ratio": 0.1436
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 554,
+            "ratio": 0.2216
+          },
+          "churn": {
+            "count": 503,
+            "ratio": 0.2012
+          }
+        }
+      },
+      {
+        "month": 20,
+        "distribution": {
+          "active": {
+            "count": 1014,
+            "ratio": 0.4056
+          },
+          "loyal": {
+            "count": 368,
+            "ratio": 0.1472
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 543,
+            "ratio": 0.2172
+          },
+          "churn": {
+            "count": 506,
+            "ratio": 0.2024
+          }
+        }
+      },
+      {
+        "month": 21,
+        "distribution": {
+          "active": {
+            "count": 1025,
+            "ratio": 0.41
+          },
+          "loyal": {
+            "count": 367,
+            "ratio": 0.1468
+          },
+          "vip": {
+            "count": 69,
+            "ratio": 0.0276
+          },
+          "risk": {
+            "count": 525,
+            "ratio": 0.21
+          },
+          "churn": {
+            "count": 514,
+            "ratio": 0.2056
+          }
+        }
+      }
+    ]
+  },
+  "scenarios": {
+    "1m": {
+      "baseline": {
+        "active": {
+          "count": 1183,
+          "ratio": 0.4732
+        },
+        "loyal": {
+          "count": 388,
+          "ratio": 0.1552
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 167,
+          "ratio": 0.0668
+        },
+        "churn": {
+          "count": 694,
+          "ratio": 0.2776
+        }
+      },
+      "multi_store": {
+        "active": {
+          "count": 1193,
+          "ratio": 0.4772
+        },
+        "loyal": {
+          "count": 386,
+          "ratio": 0.1544
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 171,
+          "ratio": 0.0684
+        },
+        "churn": {
+          "count": 682,
+          "ratio": 0.2728
+        }
+      },
+      "coupon": {
+        "active": {
+          "count": 1114,
+          "ratio": 0.4456
+        },
+        "loyal": {
+          "count": 387,
+          "ratio": 0.1548
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 231,
+          "ratio": 0.0924
+        },
+        "churn": {
+          "count": 700,
+          "ratio": 0.28
+        }
+      },
+      "combined": {
+        "active": {
+          "count": 1134,
+          "ratio": 0.4536
+        },
+        "loyal": {
+          "count": 386,
+          "ratio": 0.1544
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 223,
+          "ratio": 0.0892
+        },
+        "churn": {
+          "count": 689,
+          "ratio": 0.2756
+        }
+      }
+    },
+    "3m": {
+      "baseline": {
+        "active": {
+          "count": 1027,
+          "ratio": 0.4108
+        },
+        "loyal": {
+          "count": 386,
+          "ratio": 0.1544
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 192,
+          "ratio": 0.0768
+        },
+        "churn": {
+          "count": 827,
+          "ratio": 0.3308
+        }
+      },
+      "multi_store": {
+        "active": {
+          "count": 1052,
+          "ratio": 0.4208
+        },
+        "loyal": {
+          "count": 386,
+          "ratio": 0.1544
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 169,
+          "ratio": 0.0676
+        },
+        "churn": {
+          "count": 825,
+          "ratio": 0.33
+        }
+      },
+      "coupon": {
+        "active": {
+          "count": 971,
+          "ratio": 0.3884
+        },
+        "loyal": {
+          "count": 390,
+          "ratio": 0.156
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 276,
+          "ratio": 0.1104
+        },
+        "churn": {
+          "count": 795,
+          "ratio": 0.318
+        }
+      },
+      "combined": {
+        "active": {
+          "count": 1004,
+          "ratio": 0.4016
+        },
+        "loyal": {
+          "count": 389,
+          "ratio": 0.1556
+        },
+        "vip": {
+          "count": 68,
+          "ratio": 0.0272
+        },
+        "risk": {
+          "count": 249,
+          "ratio": 0.0996
+        },
+        "churn": {
+          "count": 790,
+          "ratio": 0.316
+        }
+      }
+    },
+    "6m": {
+      "baseline": {
+        "active": {
+          "count": 968,
+          "ratio": 0.3872
+        },
+        "loyal": {
+          "count": 383,
+          "ratio": 0.1532
+        },
+        "vip": {
+          "count": 69,
+          "ratio": 0.0276
+        },
+        "risk": {
+          "count": 75,
+          "ratio": 0.03
+        },
+        "churn": {
+          "count": 1005,
+          "ratio": 0.402
+        }
+      },
+      "multi_store": {
+        "active": {
+          "count": 996,
+          "ratio": 0.3984
+        },
+        "loyal": {
+          "count": 381,
+          "ratio": 0.1524
+        },
+        "vip": {
+          "count": 69,
+          "ratio": 0.0276
+        },
+        "risk": {
+          "count": 77,
+          "ratio": 0.0308
+        },
+        "churn": {
+          "count": 977,
+          "ratio": 0.3908
+        }
+      },
+      "coupon": {
+        "active": {
+          "count": 986,
+          "ratio": 0.3944
+        },
+        "loyal": {
+          "count": 383,
+          "ratio": 0.1532
+        },
+        "vip": {
+          "count": 69,
+          "ratio": 0.0276
+        },
+        "risk": {
+          "count": 80,
+          "ratio": 0.032
+        },
+        "churn": {
+          "count": 982,
+          "ratio": 0.3928
+        }
+      },
+      "combined": {
+        "active": {
+          "count": 1012,
+          "ratio": 0.4048
+        },
+        "loyal": {
+          "count": 381,
+          "ratio": 0.1524
+        },
+        "vip": {
+          "count": 69,
+          "ratio": 0.0276
+        },
+        "risk": {
+          "count": 82,
+          "ratio": 0.0328
+        },
+        "churn": {
+          "count": 956,
+          "ratio": 0.3824
+        }
+      }
+    }
+  },
+  "feature_importance": {
+    "global": [
+      {
+        "feature": "avg_visit_interval",
+        "label": "평균 방문간격",
+        "importance": 0.588394
+      },
+      {
+        "feature": "state_idx",
+        "label": "현재 등급",
+        "importance": 0.447321
+      },
+      {
+        "feature": "gap_days",
+        "label": "방문 공백(일)",
+        "importance": 0.175455
+      },
+      {
+        "feature": "visits",
+        "label": "월 방문 횟수",
+        "importance": 0.13206
+      },
+      {
+        "feature": "cumulative_visits",
+        "label": "누적 방문",
+        "importance": 0.084925
+      },
+      {
+        "feature": "first_month_visits",
+        "label": "첫달 방문",
+        "importance": 0.066055
+      },
+      {
+        "feature": "product_variety",
+        "label": "상품 다양성",
+        "importance": 0.056957
+      },
+      {
+        "feature": "avg_basket_value",
+        "label": "평균 장바구니",
+        "importance": 0.039421
+      },
+      {
+        "feature": "commodity_count",
+        "label": "카테고리 수",
+        "importance": 0.032773
+      },
+      {
+        "feature": "visit_trend",
+        "label": "방문 추세",
+        "importance": 0.023863
+      },
+      {
+        "feature": "discount_ratio",
+        "label": "할인 비율",
+        "importance": 0.015801
+      },
+      {
+        "feature": "dept_count",
+        "label": "부서 다양성",
+        "importance": 0.015631
+      },
+      {
+        "feature": "store_variety",
+        "label": "매장 다양성",
+        "importance": 0.011383
+      },
+      {
+        "feature": "coupon_used",
+        "label": "쿠폰 사용",
+        "importance": 0.000917
+      }
+    ],
+    "per_class": {
+      "active": [
+        {
+          "feature": "state_idx",
+          "label": "현재 등급",
+          "importance": 0.833785
+        },
+        {
+          "feature": "gap_days",
+          "label": "방문 공백(일)",
+          "importance": 0.433467
+        },
+        {
+          "feature": "avg_visit_interval",
+          "label": "평균 방문간격",
+          "importance": 0.258756
+        },
+        {
+          "feature": "cumulative_visits",
+          "label": "누적 방문",
+          "importance": 0.071989
+        },
+        {
+          "feature": "visits",
+          "label": "월 방문 횟수",
+          "importance": 0.061032
+        },
+        {
+          "feature": "first_month_visits",
+          "label": "첫달 방문",
+          "importance": 0.04448
+        },
+        {
+          "feature": "visit_trend",
+          "label": "방문 추세",
+          "importance": 0.033889
+        },
+        {
+          "feature": "commodity_count",
+          "label": "카테고리 수",
+          "importance": 0.032371
+        },
+        {
+          "feature": "product_variety",
+          "label": "상품 다양성",
+          "importance": 0.028555
+        },
+        {
+          "feature": "avg_basket_value",
+          "label": "평균 장바구니",
+          "importance": 0.024364
+        }
+      ],
+      "loyal": [
+        {
+          "feature": "avg_visit_interval",
+          "label": "평균 방문간격",
+          "importance": 1.245936
+        },
+        {
+          "feature": "state_idx",
+          "label": "현재 등급",
+          "importance": 0.844542
+        },
+        {
+          "feature": "gap_days",
+          "label": "방문 공백(일)",
+          "importance": 0.167063
+        },
+        {
+          "feature": "first_month_visits",
+          "label": "첫달 방문",
+          "importance": 0.126522
+        },
+        {
+          "feature": "avg_basket_value",
+          "label": "평균 장바구니",
+          "importance": 0.093156
+        },
+        {
+          "feature": "visits",
+          "label": "월 방문 횟수",
+          "importance": 0.071345
+        },
+        {
+          "feature": "commodity_count",
+          "label": "카테고리 수",
+          "importance": 0.053385
+        },
+        {
+          "feature": "product_variety",
+          "label": "상품 다양성",
+          "importance": 0.048074
+        },
+        {
+          "feature": "cumulative_visits",
+          "label": "누적 방문",
+          "importance": 0.037807
+        },
+        {
+          "feature": "visit_trend",
+          "label": "방문 추세",
+          "importance": 0.030945
+        }
+      ],
+      "vip": [
+        {
+          "feature": "avg_visit_interval",
+          "label": "평균 방문간격",
+          "importance": 0.447603
+        },
+        {
+          "feature": "state_idx",
+          "label": "현재 등급",
+          "importance": 0.225738
+        },
+        {
+          "feature": "visits",
+          "label": "월 방문 횟수",
+          "importance": 0.128264
+        },
+        {
+          "feature": "first_month_visits",
+          "label": "첫달 방문",
+          "importance": 0.052152
+        },
+        {
+          "feature": "product_variety",
+          "label": "상품 다양성",
+          "importance": 0.038836
+        },
+        {
+          "feature": "avg_basket_value",
+          "label": "평균 장바구니",
+          "importance": 0.037234
+        },
+        {
+          "feature": "commodity_count",
+          "label": "카테고리 수",
+          "importance": 0.030663
+        },
+        {
+          "feature": "gap_days",
+          "label": "방문 공백(일)",
+          "importance": 0.029047
+        },
+        {
+          "feature": "cumulative_visits",
+          "label": "누적 방문",
+          "importance": 0.022831
+        },
+        {
+          "feature": "discount_ratio",
+          "label": "할인 비율",
+          "importance": 0.018642
+        }
+      ],
+      "risk": [
+        {
+          "feature": "avg_visit_interval",
+          "label": "평균 방문간격",
+          "importance": 0.349606
+        },
+        {
+          "feature": "gap_days",
+          "label": "방문 공백(일)",
+          "importance": 0.104596
+        },
+        {
+          "feature": "visits",
+          "label": "월 방문 횟수",
+          "importance": 0.067194
+        },
+        {
+          "feature": "cumulative_visits",
+          "label": "누적 방문",
+          "importance": 0.057167
+        },
+        {
+          "feature": "first_month_visits",
+          "label": "첫달 방문",
+          "importance": 0.036573
+        },
+        {
+          "feature": "avg_basket_value",
+          "label": "평균 장바구니",
+          "importance": 0.025141
+        },
+        {
+          "feature": "product_variety",
+          "label": "상품 다양성",
+          "importance": 0.024324
+        },
+        {
+          "feature": "visit_trend",
+          "label": "방문 추세",
+          "importance": 0.018259
+        },
+        {
+          "feature": "discount_ratio",
+          "label": "할인 비율",
+          "importance": 0.017727
+        },
+        {
+          "feature": "commodity_count",
+          "label": "카테고리 수",
+          "importance": 0.016634
+        }
+      ],
+      "churn": [
+        {
+          "feature": "avg_visit_interval",
+          "label": "평균 방문간격",
+          "importance": 0.640067
+        },
+        {
+          "feature": "visits",
+          "label": "월 방문 횟수",
+          "importance": 0.332468
+        },
+        {
+          "feature": "state_idx",
+          "label": "현재 등급",
+          "importance": 0.316239
+        },
+        {
+          "feature": "cumulative_visits",
+          "label": "누적 방문",
+          "importance": 0.23483
+        },
+        {
+          "feature": "product_variety",
+          "label": "상품 다양성",
+          "importance": 0.144994
+        },
+        {
+          "feature": "gap_days",
+          "label": "방문 공백(일)",
+          "importance": 0.143101
+        },
+        {
+          "feature": "first_month_visits",
+          "label": "첫달 방문",
+          "importance": 0.070549
+        },
+        {
+          "feature": "visit_trend",
+          "label": "방문 추세",
+          "importance": 0.031757
+        },
+        {
+          "feature": "commodity_count",
+          "label": "카테고리 수",
+          "importance": 0.03081
+        },
+        {
+          "feature": "avg_basket_value",
+          "label": "평균 장바구니",
+          "importance": 0.017209
+        }
+      ]
+    }
+  },
+  "model_info": {
+    "algorithm": "LightGBM (GBDT)",
+    "accuracy_1m": 0.6614,
+    "accuracy_3m": 0.6591,
+    "accuracy_6m": 0.6574,
+    "total_samples": 55000,
+    "features_used": 14,
+    "num_classes": 5,
+    "feature_names": [
+      "visits",
+      "cumulative_visits",
+      "gap_days",
+      "visit_trend",
+      "coupon_used",
+      "discount_ratio",
+      "avg_basket_value",
+      "avg_visit_interval",
+      "store_variety",
+      "product_variety",
+      "dept_count",
+      "commodity_count",
+      "first_month_visits",
+      "state_idx"
+    ],
+    "feature_labels": {
+      "visits": "월 방문 횟수",
+      "cumulative_visits": "누적 방문",
+      "gap_days": "방문 공백(일)",
+      "visit_trend": "방문 추세",
+      "coupon_used": "쿠폰 사용",
+      "discount_ratio": "할인 비율",
+      "avg_basket_value": "평균 장바구니",
+      "avg_visit_interval": "평균 방문간격",
+      "store_variety": "매장 다양성",
+      "product_variety": "상품 다양성",
+      "dept_count": "부서 다양성",
+      "commodity_count": "카테고리 수",
+      "first_month_visits": "첫달 방문",
+      "state_idx": "현재 등급"
+    },
+    "state_names": {
+      "0": "active",
+      "1": "loyal",
+      "2": "vip",
+      "3": "risk",
+      "4": "churn"
+    },
+    "validation_method": "Walk-forward (5 periods)"
+  }
+}

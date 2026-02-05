@@ -1,0 +1,815 @@
+"use client";
+
+import { useState, useMemo, useRef, useEffect } from "react";
+import { motion } from "motion/react";
+import { Sun, Moon } from "lucide-react";
+import * as d3 from "d3";
+
+// 리텐션 데이터 (첫 1개월 매장 패턴별, 18개월 추적) - 7개 코호트
+const RETENTION_DATA: Record<string, { name: string; pattern: string; customers: number; retention: { period: string; days: number; rate: number }[] }> = {
+  "111": {
+    name: "다매장 탐험가",
+    pattern: "대형+중형+소형",
+    customers: 18,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 100.0 },
+      { period: "+2개월", days: 60, rate: 100.0 },
+      { period: "+3개월", days: 90, rate: 100.0 },
+      { period: "+6개월", days: 180, rate: 100.0 },
+      { period: "+12개월", days: 365, rate: 100.0 },
+      { period: "+18개월", days: 548, rate: 100.0 },
+    ],
+  },
+  "110": {
+    name: "복합 쇼퍼",
+    pattern: "대형+중형",
+    customers: 387,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 96.9 },
+      { period: "+2개월", days: 60, rate: 88.4 },
+      { period: "+3개월", days: 90, rate: 87.9 },
+      { period: "+6개월", days: 180, rate: 87.9 },
+      { period: "+12개월", days: 365, rate: 85.8 },
+      { period: "+18개월", days: 548, rate: 82.4 },
+    ],
+  },
+  "101": {
+    name: "양극단 쇼퍼",
+    pattern: "대형+소형",
+    customers: 55,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 78.2 },
+      { period: "+2개월", days: 60, rate: 76.4 },
+      { period: "+3개월", days: 90, rate: 76.4 },
+      { period: "+6개월", days: 180, rate: 76.4 },
+      { period: "+12개월", days: 365, rate: 78.2 },
+      { period: "+18개월", days: 548, rate: 80.0 },
+    ],
+  },
+  "100": {
+    name: "대형 충성파",
+    pattern: "대형 Only",
+    customers: 1344,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 76.7 },
+      { period: "+2개월", days: 60, rate: 77.7 },
+      { period: "+3개월", days: 90, rate: 77.9 },
+      { period: "+6개월", days: 180, rate: 78.4 },
+      { period: "+12개월", days: 365, rate: 78.8 },
+      { period: "+18개월", days: 548, rate: 80.0 },
+    ],
+  },
+  "010": {
+    name: "중형 충성파",
+    pattern: "중형 Only",
+    customers: 587,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 70.0 },
+      { period: "+2개월", days: 60, rate: 71.2 },
+      { period: "+3개월", days: 90, rate: 72.7 },
+      { period: "+6개월", days: 180, rate: 74.6 },
+      { period: "+12개월", days: 365, rate: 75.5 },
+      { period: "+18개월", days: 548, rate: 76.1 },
+    ],
+  },
+  "001": {
+    name: "소형 의존군",
+    pattern: "소형 Only",
+    customers: 83,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 66.3 },
+      { period: "+2개월", days: 60, rate: 71.1 },
+      { period: "+3개월", days: 90, rate: 65.1 },
+      { period: "+6개월", days: 180, rate: 62.7 },
+      { period: "+12개월", days: 365, rate: 62.2 },
+      { period: "+18개월", days: 548, rate: 74.4 },
+    ],
+  },
+  "011": {
+    name: "중소형 의존군",
+    pattern: "중형+소형",
+    customers: 26,
+    retention: [
+      { period: "시작", days: 0, rate: 100.0 },
+      { period: "+1개월", days: 30, rate: 61.5 },
+      { period: "+2개월", days: 60, rate: 57.7 },
+      { period: "+3개월", days: 90, rate: 57.7 },
+      { period: "+6개월", days: 180, rate: 57.7 },
+      { period: "+12개월", days: 365, rate: 57.7 },
+      { period: "+18개월", days: 548, rate: 61.5 },
+    ],
+  },
+};
+
+// 매장 이용 행태별 코호트 데이터 (첫 1개월 기준) - 7개 코호트, 리텐션 높은순 정렬
+const STORE_PATTERN_COHORTS = [
+  {
+    id: "111",
+    name: "다매장 탐험가",
+    pattern: "대형+중형+소형",
+    description: "3종류 매장 모두 경험",
+    customerCount: 18,
+    customerRatio: 0.7,
+    firstMonthVisits: 16.2,
+    firstMonthSales: 339,
+    storeVisits: { large: 4.6, medium: 8.6, small: 3.0 },
+    storeRatio: { large: 29, medium: 53, small: 19 },
+    categoryCount: 7.6,
+    discountRate: 50.3,
+    basketSize: 6.1,
+    basketValue: 21,
+    gradeDistribution: { vip: 27.8, loyal: 44.4, active: 22.2, risk: 5.6, churn: 0.0 },
+    retention18m: 100.0,
+    highlight: "VIP 27.8% | 이탈 0%",
+    color: "#fbbf24",
+  },
+  {
+    id: "110",
+    name: "복합 쇼퍼",
+    pattern: "대형+중형",
+    description: "주요 매장 병행 이용",
+    customerCount: 387,
+    customerRatio: 15.5,
+    firstMonthVisits: 8.9,
+    firstMonthSales: 233,
+    storeVisits: { large: 4.8, medium: 4.1, small: 0 },
+    storeRatio: { large: 54, medium: 46, small: 0 },
+    categoryCount: 6.7,
+    discountRate: 53.3,
+    basketSize: 8.8,
+    basketValue: 26,
+    gradeDistribution: { vip: 4.4, loyal: 23.3, active: 38.0, risk: 18.1, churn: 16.3 },
+    retention18m: 82.4,
+    highlight: "안정적 전환",
+    color: "#22c55e",
+  },
+  {
+    id: "101",
+    name: "양극단 쇼퍼",
+    pattern: "대형+소형",
+    description: "중형 미경험 (희귀)",
+    customerCount: 55,
+    customerRatio: 2.2,
+    firstMonthVisits: 8.5,
+    firstMonthSales: 208,
+    storeVisits: { large: 5.8, medium: 0, small: 2.7 },
+    storeRatio: { large: 69, medium: 0, small: 31 },
+    categoryCount: 5.8,
+    discountRate: 52.0,
+    basketSize: 8.5,
+    basketValue: 24,
+    gradeDistribution: { vip: 3.6, loyal: 21.8, active: 34.5, risk: 20.0, churn: 20.0 },
+    retention18m: 80.0,
+    highlight: "대형 경험 있음",
+    color: "#06b6d4",
+  },
+  {
+    id: "100",
+    name: "대형 충성파",
+    pattern: "대형 Only",
+    description: "최다 고객군 (53.8%)",
+    customerCount: 1344,
+    customerRatio: 53.8,
+    firstMonthVisits: 5.8,
+    firstMonthSales: 168,
+    storeVisits: { large: 5.8, medium: 0, small: 0 },
+    storeRatio: { large: 100, medium: 0, small: 0 },
+    categoryCount: 5.6,
+    discountRate: 51.7,
+    basketSize: 9.9,
+    basketValue: 29,
+    gradeDistribution: { vip: 2.7, loyal: 16.9, active: 40.3, risk: 20.6, churn: 19.5 },
+    retention18m: 80.0,
+    highlight: "다매장 유도 필요",
+    color: "#3b82f6",
+  },
+  {
+    id: "010",
+    name: "중형 충성파",
+    pattern: "중형 Only",
+    description: "대형 미경험",
+    customerCount: 587,
+    customerRatio: 23.5,
+    firstMonthVisits: 5.4,
+    firstMonthSales: 144,
+    storeVisits: { large: 0, medium: 5.4, small: 0 },
+    storeRatio: { large: 0, medium: 100, small: 0 },
+    categoryCount: 5.3,
+    discountRate: 54.6,
+    basketSize: 8.9,
+    basketValue: 26,
+    gradeDistribution: { vip: 2.0, loyal: 10.9, active: 40.7, risk: 21.6, churn: 24.7 },
+    retention18m: 76.1,
+    highlight: "대형 유도 필요",
+    color: "#8b5cf6",
+  },
+  {
+    id: "001",
+    name: "소형 의존군",
+    pattern: "소형 Only",
+    description: "VIP 전환 0%",
+    customerCount: 83,
+    customerRatio: 3.3,
+    firstMonthVisits: 4.0,
+    firstMonthSales: 131,
+    storeVisits: { large: 0, medium: 0, small: 4.0 },
+    storeRatio: { large: 0, medium: 0, small: 100 },
+    categoryCount: 4.8,
+    discountRate: 57.6,
+    basketSize: 11.1,
+    basketValue: 33,
+    gradeDistribution: { vip: 0.0, loyal: 9.6, active: 39.8, risk: 25.3, churn: 25.3 },
+    retention18m: 74.4,
+    highlight: "VIP 0%",
+    color: "#6b7280",
+  },
+  {
+    id: "011",
+    name: "중소형 의존군",
+    pattern: "중형+소형",
+    description: "대형 미경험 → 이탈 최고",
+    customerCount: 26,
+    customerRatio: 1.0,
+    firstMonthVisits: 6.5,
+    firstMonthSales: 172,
+    storeVisits: { large: 0, medium: 4.1, small: 2.4 },
+    storeRatio: { large: 0, medium: 63, small: 37 },
+    categoryCount: 5.2,
+    discountRate: 55.8,
+    basketSize: 9.2,
+    basketValue: 26,
+    gradeDistribution: { vip: 3.8, loyal: 11.5, active: 23.1, risk: 23.1, churn: 38.5 },
+    retention18m: 61.5,
+    highlight: "이탈 38.5% 최고",
+    color: "#ef4444",
+  },
+];
+
+// 통계적 검증 결과
+const STATISTICAL_VALIDATION = {
+  chiSquare: 106.02,
+  pValue: "< 0.001",
+  conclusion: "첫 1개월 패턴 → 최종 등급 예측 유의미",
+};
+
+// 등급 색상
+const GRADE_COLORS: Record<string, string> = {
+  vip: "#fbbf24",
+  loyal: "#22c55e",
+  active: "#3b82f6",
+  risk: "#f97316",
+  churn: "#6b7280",
+};
+
+const GRADE_LABELS: Record<string, string> = {
+  vip: "VIP",
+  loyal: "충성",
+  active: "활성",
+  risk: "위험",
+  churn: "이탈",
+};
+
+// 매장 크기별 설정
+const STORE_CONFIG = {
+  large: { width: 80, height: 55, color: "#3b82f6", label: "대형", glow: "#60a5fa" },
+  medium: { width: 65, height: 45, color: "#8b5cf6", label: "중형", glow: "#a78bfa" },
+  small: { width: 50, height: 35, color: "#6b7280", label: "소형", glow: "#9ca3af" },
+};
+
+// 네트워크 캔버스 컴포넌트
+function CohortNetworkCanvas({
+  cohort,
+  timeMode,
+}: {
+  cohort: typeof STORE_PATTERN_COHORTS[0];
+  timeMode: "weekday" | "weekend";
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number>(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const { width, height } = container.getBoundingClientRect();
+    const ctx = canvas.getContext("2d")!;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.scale(dpr, dpr);
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // 매장 노드 생성
+    interface SimNode {
+      id: string;
+      type: "store" | "customer";
+      storeSize?: "large" | "medium" | "small";
+      grade?: string;
+      x: number;
+      y: number;
+      homeStore?: SimNode;
+      targetStore?: SimNode;
+      isMoving?: boolean;
+      progress?: number;
+      orbitAngle?: number;
+      orbitDist?: number;
+      orbitSpeed?: number;
+    }
+
+    const nodes: SimNode[] = [];
+    const stores: SimNode[] = [];
+    const { storeRatio, storeVisits } = cohort;
+
+    // 매장 배치 (넓게 분산)
+    const spreadX = Math.min(width * 0.35, 150);
+    const spreadY = Math.min(height * 0.25, 60);
+
+    if (storeRatio.large > 0) {
+      const store: SimNode = { id: "large", type: "store", storeSize: "large", x: centerX - spreadX, y: centerY };
+      nodes.push(store);
+      stores.push(store);
+    }
+    if (storeRatio.medium > 0) {
+      const store: SimNode = { id: "medium", type: "store", storeSize: "medium", x: centerX + spreadX, y: centerY };
+      nodes.push(store);
+      stores.push(store);
+    }
+    if (storeRatio.small > 0) {
+      const store: SimNode = { id: "small", type: "store", storeSize: "small", x: centerX, y: centerY + spreadY };
+      nodes.push(store);
+      stores.push(store);
+    }
+
+    // 고객 노드 생성 (더 많이)
+    const grades = Object.entries(cohort.gradeDistribution) as [string, number][];
+    const maxCustomers = 80;
+    const scale = maxCustomers / 100;
+
+    grades.forEach(([grade, pct]) => {
+      const count = Math.max(1, Math.round(pct * scale));
+      for (let i = 0; i < count; i++) {
+        const rand = Math.random() * 100;
+        let homeStore = stores[0];
+        if (rand < storeRatio.large && stores.find(s => s.storeSize === "large")) {
+          homeStore = stores.find(s => s.storeSize === "large")!;
+        } else if (rand < storeRatio.large + storeRatio.medium && stores.find(s => s.storeSize === "medium")) {
+          homeStore = stores.find(s => s.storeSize === "medium")!;
+        } else if (stores.find(s => s.storeSize === "small")) {
+          homeStore = stores.find(s => s.storeSize === "small")!;
+        }
+
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 35 + Math.random() * 45;
+        const orbitSpeed = 0.3 + Math.random() * 0.5; // 공전 속도
+        nodes.push({
+          id: `cust_${grade}_${i}`,
+          type: "customer",
+          grade,
+          x: homeStore.x + Math.cos(angle) * dist,
+          y: homeStore.y + Math.sin(angle) * dist,
+          homeStore,
+          targetStore: stores.length > 1 ? stores[Math.floor(Math.random() * stores.length)] : homeStore,
+          isMoving: Math.random() < 0.3, // 30%가 다른 매장으로 이동 중
+          progress: Math.random(),
+          // 추가 속성
+          orbitAngle: angle,
+          orbitDist: dist,
+          orbitSpeed: orbitSpeed,
+        } as SimNode);
+      }
+    });
+
+    // 평일/주말에 따른 이동 빈도
+    const weekdayRatio = cohort.id === "111" ? 52 : cohort.id === "110" ? 58 : cohort.id === "100" ? 55 : cohort.id === "010" ? 60 : 65;
+    const movementMultiplier = timeMode === "weekday" ? weekdayRatio / 50 : (100 - weekdayRatio) / 50;
+
+    let time = 0;
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      time += 0.016;
+
+      const customers = nodes.filter(n => n.type === "customer");
+
+      // 고객 움직임 업데이트
+      customers.forEach((cust) => {
+        if (!cust.homeStore) return;
+
+        // 모든 고객은 매장 주변 궤도를 돈다
+        cust.orbitAngle = (cust.orbitAngle || 0) + (cust.orbitSpeed || 0.3) * 0.02 * movementMultiplier;
+
+        if (cust.isMoving && cust.targetStore && cust.targetStore !== cust.homeStore) {
+          // 다른 매장으로 이동 중: 곡선 경로 (베지어)
+          cust.progress = ((cust.progress || 0) + 0.008 * movementMultiplier) % 1;
+          const t = cust.progress;
+
+          // 시작점 (홈 매장 궤도)
+          const startX = cust.homeStore.x + Math.cos(cust.orbitAngle) * (cust.orbitDist || 40);
+          const startY = cust.homeStore.y + Math.sin(cust.orbitAngle) * (cust.orbitDist || 40);
+
+          // 끝점 (타겟 매장)
+          const endX = cust.targetStore.x;
+          const endY = cust.targetStore.y;
+
+          // 중간 컨트롤 포인트 (곡선 만들기)
+          const ctrlX = (startX + endX) / 2 + (startY - endY) * 0.3;
+          const ctrlY = (startY + endY) / 2 + (endX - startX) * 0.3;
+
+          // 베지어 곡선 위치
+          const u = t < 0.5 ? t * 2 : (1 - t) * 2; // 왔다 갔다
+          cust.x = (1 - u) * (1 - u) * startX + 2 * (1 - u) * u * ctrlX + u * u * endX;
+          cust.y = (1 - u) * (1 - u) * startY + 2 * (1 - u) * u * ctrlY + u * u * endY;
+        } else {
+          // 홈 매장 주변 궤도 회전
+          cust.x = cust.homeStore.x + Math.cos(cust.orbitAngle) * (cust.orbitDist || 40);
+          cust.y = cust.homeStore.y + Math.sin(cust.orbitAngle) * (cust.orbitDist || 40);
+        }
+
+        // 랜덤하게 이동 시작/종료
+        if (Math.random() < 0.002 * movementMultiplier && stores.length > 1) {
+          cust.isMoving = !cust.isMoving;
+          if (cust.isMoving) {
+            const others = stores.filter(s => s !== cust.homeStore);
+            cust.targetStore = others[Math.floor(Math.random() * others.length)];
+            cust.progress = 0;
+          }
+        }
+      });
+
+      // 매장 간 연결 라인 (반투명)
+      if (stores.length > 1) {
+        ctx.strokeStyle = "rgba(255,255,255,0.08)";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        stores.forEach((s1, i) => {
+          stores.slice(i + 1).forEach((s2) => {
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
+            ctx.stroke();
+          });
+        });
+        ctx.setLineDash([]);
+      }
+
+      // 이동 중인 고객 궤적 (곡선)
+      customers.filter(c => c.isMoving && c.targetStore && c.targetStore !== c.homeStore).forEach((cust) => {
+        if (!cust.targetStore || !cust.homeStore || !isFinite(cust.x) || !isFinite(cust.y)) return;
+
+        // 홈 매장에서 타겟 매장으로 곡선 궤적
+        const startX = cust.homeStore.x;
+        const startY = cust.homeStore.y;
+        const endX = cust.targetStore.x;
+        const endY = cust.targetStore.y;
+        const ctrlX = (startX + endX) / 2 + (startY - endY) * 0.3;
+        const ctrlY = (startY + endY) / 2 + (endX - startX) * 0.3;
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.quadraticCurveTo(ctrlX, ctrlY, endX, endY);
+        ctx.strokeStyle = GRADE_COLORS[cust.grade!] + "20";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+
+      // 고객 점
+      customers.forEach((node) => {
+        if (!isFinite(node.x) || !isFinite(node.y)) return;
+
+        const radius = node.isMoving ? 4.5 : 3;
+
+        // 이동 중인 고객은 글로우 + 꼬리 효과
+        if (node.isMoving && node.targetStore) {
+          ctx.shadowColor = GRADE_COLORS[node.grade!];
+          ctx.shadowBlur = 10;
+
+          // 꼬리 (이전 위치 방향)
+          const tailLen = 8;
+          const angle = Math.atan2(node.y - node.targetStore.y, node.x - node.targetStore.x);
+          ctx.beginPath();
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(node.x + Math.cos(angle) * tailLen, node.y + Math.sin(angle) * tailLen);
+          ctx.strokeStyle = GRADE_COLORS[node.grade!] + "60";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = GRADE_COLORS[node.grade!];
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // 매장 (펄스 효과 + 글로우)
+      stores.forEach((store) => {
+        const config = STORE_CONFIG[store.storeSize!];
+        const pulse = 1 + Math.sin(time * 2) * 0.03;
+        const w = config.width * pulse;
+        const h = config.height * pulse;
+
+        // 외곽 글로우
+        ctx.shadowColor = config.glow;
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.roundRect(store.x - w / 2, store.y - h / 2, w, h, 8);
+        ctx.fillStyle = config.color;
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "rgba(255,255,255,0.4)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // 텍스트
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 12px system-ui";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(config.label, store.x, store.y - 8);
+
+        const ratio = cohort.storeRatio[store.storeSize!];
+        ctx.font = "bold 11px system-ui";
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.fillText(`${ratio}%`, store.x, store.y + 8);
+      });
+
+      animationRef.current = requestAnimationFrame(render);
+    };
+
+    render();
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [cohort, timeMode]);
+
+  return (
+    <div ref={containerRef} className="w-full h-full">
+      <canvas ref={canvasRef} className="w-full h-full" />
+    </div>
+  );
+}
+
+export function CohortView() {
+  const [selectedCohort, setSelectedCohort] = useState<string | null>("111");
+
+  const selectedData = useMemo(() => {
+    return STORE_PATTERN_COHORTS.find((c) => c.id === selectedCohort);
+  }, [selectedCohort]);
+
+  const totalCustomers = STORE_PATTERN_COHORTS.reduce((sum, c) => sum + c.customerCount, 0);
+
+  return (
+    <div className="w-full h-full min-h-[550px] flex flex-col overflow-auto">
+      {/* Header */}
+      <div className="mb-3">
+        <h3 className="text-lg font-semibold text-white mb-1">
+          🏪 매장이용행태별 코호트 분석
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          첫 1개월 매장 방문 패턴 → 최종 등급 예측 (Chi²={STATISTICAL_VALIDATION.chiSquare}, p{STATISTICAL_VALIDATION.pValue})
+        </p>
+      </div>
+
+      {/* Cohort Cards - 가로 스크롤 */}
+      <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+        {STORE_PATTERN_COHORTS.map((cohort) => {
+          const isSelected = selectedCohort === cohort.id;
+          const customerPct = ((cohort.customerCount / totalCustomers) * 100).toFixed(1);
+
+          return (
+            <motion.button
+              key={cohort.id}
+              onClick={() => setSelectedCohort(cohort.id)}
+              className={`flex-shrink-0 p-2.5 rounded-lg border transition-all text-left ${
+                isSelected
+                  ? "border-white/40 bg-white/15 ring-2 ring-white/20"
+                  : "border-white/10 bg-white/5 hover:bg-white/8"
+              }`}
+              style={{ minWidth: "130px" }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-center gap-1.5 mb-1">
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: cohort.color }}
+                />
+                <span className="text-[10px] font-mono text-white/50">{cohort.id}</span>
+                <span className="text-[10px] text-white/30">({cohort.pattern})</span>
+              </div>
+              <div className="text-xs font-semibold text-white">{cohort.name}</div>
+              <div className="text-[10px] text-white/40">{cohort.customerCount}명 ({customerPct}%)</div>
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* 통합 데이터 뷰 - 모든 정보 세로 나열 */}
+      <div className="space-y-4 flex-1">
+
+        {/* 1. 등급 전환율 */}
+        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+          <h4 className="text-xs font-semibold text-white/60 mb-2">📊 등급 전환율</h4>
+          <div className="space-y-1.5">
+            {STORE_PATTERN_COHORTS.map((cohort) => {
+              const isSelected = selectedCohort === cohort.id;
+              return (
+                <div
+                  key={cohort.id}
+                  className={`flex items-center gap-2 p-1 rounded transition-all ${
+                    isSelected ? "bg-white/10 ring-1 ring-white/20" : "opacity-60"
+                  }`}
+                >
+                  <div className="w-20 text-[10px] text-white/70 truncate flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cohort.color }} />
+                    {cohort.name}
+                  </div>
+                  <div className="flex-1 h-5 rounded overflow-hidden flex">
+                    {Object.entries(cohort.gradeDistribution).map(([grade, pct]) => (
+                      <div
+                        key={grade}
+                        className="h-full flex items-center justify-center text-[9px] font-medium"
+                        style={{
+                          width: `${pct}%`,
+                          backgroundColor: GRADE_COLORS[grade],
+                          color: pct >= 12 ? "white" : "transparent",
+                        }}
+                      >
+                        {pct >= 12 ? `${pct.toFixed(0)}%` : ""}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="w-14 text-right">
+                    <span className="text-[10px] font-bold" style={{ color: GRADE_COLORS.vip }}>
+                      {cohort.gradeDistribution.vip.toFixed(1)}%
+                    </span>
+                    <span className="text-[8px] text-white/30 ml-0.5">VIP</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center gap-3 mt-2 pt-2 border-t border-white/10">
+            {Object.entries(GRADE_LABELS).map(([grade, label]) => (
+              <div key={grade} className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded" style={{ backgroundColor: GRADE_COLORS[grade] }} />
+                <span className="text-[9px] text-white/50">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 2. 구매 행동 */}
+        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+          <h4 className="text-xs font-semibold text-white/60 mb-2">🛒 구매 행동 (첫 1개월)</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[10px]">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left py-1 text-white/40 font-medium">코호트</th>
+                  <th className="text-right py-1 text-white/40 font-medium">방문</th>
+                  <th className="text-right py-1 text-white/40 font-medium">매출</th>
+                  <th className="text-right py-1 text-white/40 font-medium">카테고리</th>
+                  <th className="text-right py-1 text-white/40 font-medium">할인율</th>
+                  <th className="text-right py-1 text-white/40 font-medium">장바구니</th>
+                </tr>
+              </thead>
+              <tbody>
+                {STORE_PATTERN_COHORTS.map((cohort) => {
+                  const isSelected = selectedCohort === cohort.id;
+                  return (
+                    <tr
+                      key={cohort.id}
+                      className={`border-b border-white/5 transition-all ${
+                        isSelected ? "bg-white/10" : "opacity-60"
+                      }`}
+                    >
+                      <td className="py-1.5">
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cohort.color }} />
+                          <span className="text-white/80">{cohort.name}</span>
+                        </div>
+                      </td>
+                      <td className="text-right py-1.5 text-white/70">{cohort.firstMonthVisits.toFixed(1)}회</td>
+                      <td className="text-right py-1.5 text-white/70">${cohort.firstMonthSales}</td>
+                      <td className="text-right py-1.5 text-white/70">{cohort.categoryCount.toFixed(1)}개</td>
+                      <td className="text-right py-1.5 text-white/70">{cohort.discountRate.toFixed(1)}%</td>
+                      <td className="text-right py-1.5 text-white/70">{cohort.basketSize.toFixed(1)}개/${cohort.basketValue}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* 3. 리텐션 */}
+        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+          <h4 className="text-xs font-semibold text-white/60 mb-2">📈 18개월 리텐션</h4>
+          <div className="space-y-1">
+            {/* Header */}
+            <div className="flex items-center gap-1 mb-1">
+              <div className="w-20" />
+              {RETENTION_DATA["111"].retention.map((r) => (
+                <div key={r.period} className="flex-1 text-center text-[8px] text-white/40">
+                  {r.period}
+                </div>
+              ))}
+            </div>
+            {/* Rows */}
+            {STORE_PATTERN_COHORTS.map((cohort) => {
+              const retentionInfo = RETENTION_DATA[cohort.id];
+              const isSelected = selectedCohort === cohort.id;
+              return (
+                <div
+                  key={cohort.id}
+                  className={`flex items-center gap-1 p-0.5 rounded transition-all ${
+                    isSelected ? "bg-white/10 ring-1 ring-white/20" : "opacity-60"
+                  }`}
+                >
+                  <div className="w-20 text-[9px] text-white/70 truncate flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cohort.color }} />
+                    {cohort.name}
+                  </div>
+                  {retentionInfo?.retention.map((r, i) => {
+                    const rate = r.rate;
+                    let bgColor = "rgba(239, 68, 68, 0.6)";
+                    if (rate >= 90) bgColor = "rgba(34, 197, 94, 0.8)";
+                    else if (rate >= 80) bgColor = "rgba(132, 204, 22, 0.7)";
+                    else if (rate >= 70) bgColor = "rgba(234, 179, 8, 0.6)";
+                    else if (rate >= 60) bgColor = "rgba(249, 115, 22, 0.5)";
+                    return (
+                      <div
+                        key={i}
+                        className="flex-1 h-6 rounded flex items-center justify-center text-[9px] font-medium text-white"
+                        style={{ backgroundColor: bgColor }}
+                      >
+                        {rate.toFixed(0)}%
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 선택된 코호트 핵심 요약 */}
+        {selectedData && (
+          <div
+            className="p-3 rounded-lg border"
+            style={{
+              backgroundColor: selectedData.color + "15",
+              borderColor: selectedData.color + "40"
+            }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: selectedData.color }} />
+              <span className="text-sm font-bold text-white">{selectedData.name}</span>
+              <span className="text-xs text-white/50">({selectedData.pattern})</span>
+            </div>
+            <div className="grid grid-cols-4 gap-3 text-center">
+              <div>
+                <div className="text-lg font-bold" style={{ color: GRADE_COLORS.vip }}>
+                  {selectedData.gradeDistribution.vip.toFixed(1)}%
+                </div>
+                <div className="text-[10px] text-white/50">VIP 전환</div>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-red-400">
+                  {selectedData.gradeDistribution.churn.toFixed(1)}%
+                </div>
+                <div className="text-[10px] text-white/50">이탈율</div>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-blue-400">
+                  {selectedData.firstMonthVisits.toFixed(1)}회
+                </div>
+                <div className="text-[10px] text-white/50">첫달 방문</div>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-green-400">
+                  {selectedData.retention18m}%
+                </div>
+                <div className="text-[10px] text-white/50">18개월 리텐션</div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

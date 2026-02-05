@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Customer State Colors */
+  --color-vip: #fbbf24;
+  --color-loyal: #22c55e;
+  --color-active: #3b82f6;
+  --color-risk: #f97316;
+  --color-churn: #6b7280;
+  --color-new: #ec4899;
+
+  /* Animation Keyframes */
+  --animate-orbit: orbit var(--duration, 20s) linear infinite;
+  --animate-border-beam: border-beam calc(var(--duration)*1s) infinite linear;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.08);
+  --ring: rgba(255, 255, 255, 0.2);
+  --accent: rgba(255, 255, 255, 0.05);
+  --accent-foreground: #fafafa;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120,119,198,0.12), transparent),
+                radial-gradient(ellipse 50% 50% at 80% 50%, rgba(59,130,246,0.08), transparent),
+                #09090b;
+    min-height: 100vh;
+  }
+}
+
+/* Magic UI Animations */
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg);
+  }
+}
+
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(12px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Custom Utility Classes */
+.animate-orbit {
+  animation: orbit var(--duration, 20s) linear infinite;
+}
+
+.animate-border-beam {
+  animation: border-beam calc(var(--duration)*1s) infinite linear;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* State Colors */
+.state-vip { color: var(--color-vip); }
+.state-loyal { color: var(--color-loyal); }
+.state-active { color: var(--color-active); }
+.state-risk { color: var(--color-risk); }
+.state-churn { color: var(--color-churn); }
+.state-new { color: var(--color-new); }
+
+.bg-state-vip { background-color: var(--color-vip); }
+.bg-state-loyal { background-color: var(--color-loyal); }
+.bg-state-active { background-color: var(--color-active); }
+.bg-state-risk { background-color: var(--color-risk); }
+.bg-state-churn { background-color: var(--color-churn); }
+.bg-state-new { background-color: var(--color-new); }
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #fff, #71717a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

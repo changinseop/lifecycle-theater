@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { OverviewView } from "@/components/theater/overview-view";
 import { Predictor } from "@/components/theater/predictor";
+import { MovieView } from "@/components/theater/movie-view";
 import { CohortView } from "@/components/theater/cohort-view";
 import { SankeyView } from "@/components/theater/sankey-view";
 import { FunnelAnalysisView } from "@/components/theater/funnel-analysis-view";
@@ -16,6 +17,7 @@ const TABS = [
   { id: "funnel", label: "Funnel" },
   { id: "store", label: "Store" },
   { id: "predict", label: "Predict" },
+  { id: "movie", label: "Movie" },
 ];
 
 export default function Home() {
@@ -101,6 +103,7 @@ export default function Home() {
           {activeTab === "funnel" && <FunnelAnalysisView onStateSelect={setSelectedState} />}
           {activeTab === "store" && <StoreExperienceView onStateSelect={setSelectedState} />}
           {activeTab === "predict" && <Predictor />}
+          {activeTab === "movie" && <MovieView />}
         </div>
       </div>
     </main>

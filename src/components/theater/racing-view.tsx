@@ -442,7 +442,7 @@ export function RacingView() {
   }, [renderCanvas]);
 
   return (
-    <div className="w-full h-full min-h-[700px] flex flex-col">
+    <div className="w-full h-full min-h-[400px] md:min-h-[700px] flex flex-col">
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -456,7 +456,7 @@ export function RacingView() {
       </div>
 
       {/* 컨트롤 */}
-      <div className="flex items-center gap-4 mb-4 p-3 bg-white/5 rounded-lg">
+      <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-4 p-2 md:p-3 bg-white/5 rounded-lg">
         <Button
           variant="ghost"
           size="sm"
@@ -481,7 +481,7 @@ export function RacingView() {
             <button
               key={s}
               onClick={() => setSpeed(s)}
-              className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+              className={`px-2 md:px-4 py-1 md:py-1.5 rounded-md text-xs md:text-sm font-bold transition-all ${
                 speed === s
                   ? "bg-yellow-500 text-black shadow-lg shadow-yellow-500/30"
                   : "bg-transparent text-white/60 hover:text-white hover:bg-white/10"
@@ -502,13 +502,13 @@ export function RacingView() {
           className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
         />
 
-        <span className="text-white font-mono w-28 text-right">
-          Day {currentDay} / {maxDay}
+        <span className="text-white font-mono text-xs md:text-base w-20 md:w-28 text-right">
+          Day {currentDay}/{maxDay}
         </span>
       </div>
 
       {/* 레인별 카운트 */}
-      <div className="flex gap-2 mb-4">
+      <div className="grid grid-cols-5 gap-1 md:flex md:gap-2 mb-4">
         {LANES.map((lane) => {
           const count = laneCounts[lane.id as keyof typeof laneCounts] || 0;
           return (
@@ -521,17 +521,17 @@ export function RacingView() {
                 opacity: count > 0 ? 1 : 0.5,
               }}
             >
-              <div className="text-lg">{lane.emoji}</div>
+              <div className="text-sm md:text-lg">{lane.emoji}</div>
               <motion.div
                 key={count}
                 initial={{ scale: 1.2 }}
                 animate={{ scale: 1 }}
-                className="text-xl font-bold"
+                className="text-base md:text-xl font-bold"
                 style={{ color: lane.color }}
               >
                 {count.toLocaleString()}
               </motion.div>
-              <div className="text-xs text-white/60">{lane.label}</div>
+              <div className="text-[10px] md:text-xs text-white/60 truncate">{lane.label}</div>
             </motion.div>
           );
         })}

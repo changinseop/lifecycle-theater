@@ -106,7 +106,7 @@ export function WaveBackground() {
         }
 
         ctx.strokeStyle = stream.color + "15";
-        ctx.lineWidth = 30;
+        ctx.lineWidth = width < 768 ? 25 : 30;
         ctx.stroke();
 
         // 파티클 업데이트 및 렌더링

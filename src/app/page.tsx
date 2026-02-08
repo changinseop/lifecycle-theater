@@ -2,6 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
+import { useIsMobile } from "@/hooks/use-media-query";
+
+// Desktop components
 import { OverviewView } from "@/components/theater/overview-view";
 import { Predictor } from "@/components/theater/predictor";
 import { MovieView } from "@/components/theater/movie-view";
@@ -10,14 +13,21 @@ import { SankeyView } from "@/components/theater/sankey-view";
 import { FunnelAnalysisView } from "@/components/theater/funnel-analysis-view";
 import { StoreExperienceView } from "@/components/theater/store-experience-view";
 
+// Mobile components
+import { OverviewMobile } from "@/components/theater/mobile/overview-mobile";
+import { SankeyMobile } from "@/components/theater/mobile/sankey-mobile";
+import { CohortMobile } from "@/components/theater/mobile/cohort-mobile";
+import { FunnelMobile } from "@/components/theater/mobile/funnel-mobile";
+import { StoreMobile } from "@/components/theater/mobile/store-mobile";
+
 const TABS = [
-  { id: "overview", label: "Overview" },
-  { id: "sankey", label: "Sankey" },
-  { id: "cohort", label: "Cohort" },
-  { id: "funnel", label: "Funnel" },
-  { id: "store", label: "Store" },
-  { id: "predict", label: "Predict" },
-  { id: "movie", label: "Movie" },
+  { id: "overview", label: "Overview", icon: "📊" },
+  { id: "sankey", label: "Sankey", icon: "🔀" },
+  { id: "cohort", label: "Cohort", icon: "👥" },
+  { id: "funnel", label: "Funnel", icon: "📉" },
+  { id: "store", label: "Store", icon: "🏪" },
+  { id: "predict", label: "Predict", icon: "🔮" },
+  { id: "movie", label: "Movie", icon: "🎬" },
 ];
 
 export default function Home() {
@@ -25,8 +35,8 @@ export default function Home() {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const isMobile = useIsMobile();
 
-  // 인디케이터 위치 업데이트
   useEffect(() => {
     const activeIndex = TABS.findIndex((t) => t.id === activeTab);
     const activeRef = tabRefs.current[activeIndex];
@@ -42,6 +52,51 @@ export default function Home() {
     setActiveTab(tab);
   };
 
+  // --- Mobile Layout ---
+  if (isMobile) {
+    return (
+      <main className="min-h-screen relative overflow-x-hidden bg-black">
+        <div className="px-3 py-2">
+          {/* Mobile Tab Navigation */}
+          <div className="mb-2 overflow-x-auto scrollbar-hide">
+            <div className="relative flex items-center gap-1 p-1 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 w-max min-w-full">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative z-10 flex items-center gap-1 px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? "text-white bg-white/15 border border-white/20 shadow-lg"
+                      : "text-white/40 active:text-white/70"
+                  }`}
+                >
+                  <span>{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Content */}
+          <div className={`rounded-xl min-h-[calc(100vh-60px)] overflow-y-auto border border-white/5 ${
+            activeTab === "overview"
+              ? "bg-black/20 backdrop-blur-[0.5px]"
+              : "bg-black/30 backdrop-blur-sm"
+          }`}>
+            {activeTab === "overview" && <OverviewMobile onNavigate={handleNavigate} />}
+            {activeTab === "cohort" && <CohortMobile />}
+            {activeTab === "sankey" && <SankeyMobile />}
+            {activeTab === "funnel" && <FunnelMobile />}
+            {activeTab === "store" && <StoreMobile />}
+            {activeTab === "predict" && <Predictor />}
+            {activeTab === "movie" && <MovieView />}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // --- Desktop Layout (unchanged) ---
   return (
     <main className="min-h-screen relative overflow-x-hidden bg-black">
       <div className="container mx-auto px-6 py-3 max-w-[1920px]">

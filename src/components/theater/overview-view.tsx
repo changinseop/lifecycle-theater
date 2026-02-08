@@ -1036,6 +1036,15 @@ function SectionIntro() {
             <span className="text-sm text-slate-500">추적 기간</span>
           </div>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.0, duration: 0.8 }}
+          className="mt-12 text-xs text-white/30"
+        >
+          이 대시보드는 패스트캠퍼스 INNER CIRCLE:데이터 분석 Course 4기 팀프로젝트로 제작되었습니다.
+        </motion.p>
       </div>
     </div>
   );

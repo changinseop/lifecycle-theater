@@ -194,40 +194,40 @@ export function Predictor() {
       {/* Header */}
       <div className="border-b border-white/10">
         <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-white">
+              <h1 className="text-xl md:text-2xl font-bold text-white">
                 AI 예측: 별책부록
               </h1>
-              <p className="text-sm text-white/50 mt-1">
+              <p className="text-xs md:text-sm text-white/50 mt-1">
                 통계 분석의 독립 검증 - LightGBM Walk-forward Validation
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 md:gap-3">
               {(["1m", "3m", "6m"] as const).map((h) => (
                 <div
                   key={h}
-                  className="text-center px-4 py-2 bg-white/5 rounded-lg border border-white/10"
+                  className="text-center flex-1 md:flex-none px-3 md:px-4 py-2 bg-white/5 rounded-lg border border-white/10"
                 >
-                  <div className="text-lg font-bold text-white">
+                  <div className="text-base md:text-lg font-bold text-white">
                     {((data.backtest.overall_accuracy[h] || 0) * 100).toFixed(
                       1
                     )}
                     %
                   </div>
-                  <div className="text-xs text-white/50">{HORIZON_LABELS[h]}</div>
+                  <div className="text-[10px] md:text-xs text-white/50">{HORIZON_LABELS[h]}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Tab nav */}
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-4 overflow-x-auto">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-4 md:px-5 py-2.5 md:py-2 rounded-lg text-sm font-medium transition-all min-h-[44px] whitespace-nowrap ${
                   activeTab === tab.id
                     ? "bg-white/15 text-white border border-white/20"
                     : "bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/70"
@@ -241,7 +241,7 @@ export function Predictor() {
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-6">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-6">
         <AnimatePresence mode="wait">
           {activeTab === "backtest" && (
             <motion.div
@@ -311,12 +311,12 @@ function BacktestTab({ data }: { data: PredictionData }) {
   return (
     <div className="space-y-6">
       {/* Section title + horizon selector */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-white">
             Walk-forward 백테스트
           </h2>
-          <p className="text-sm text-white/40">
+          <p className="text-xs md:text-sm text-white/40">
             과거 데이터를 순차적으로 학습하며 미래를 예측 - 시계열 검증
           </p>
         </div>
@@ -325,7 +325,7 @@ function BacktestTab({ data }: { data: PredictionData }) {
             <button
               key={h}
               onClick={() => setSelectedHorizon(h)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-all ${
+              className={`px-3 py-2 md:py-1.5 rounded text-xs font-medium transition-all min-h-[44px] md:min-h-0 ${
                 selectedHorizon === h
                   ? "bg-white/15 text-white"
                   : "bg-white/5 text-white/40 hover:text-white/60"
@@ -338,23 +338,25 @@ function BacktestTab({ data }: { data: PredictionData }) {
       </div>
 
       {/* Monthly distribution timeline */}
-      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-5">
+      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-4 md:p-5">
         <h3 className="text-sm font-medium text-white/60 mb-4">
           월별 등급 분포 추이 (실제)
         </h3>
-        <div className="flex gap-1 items-end h-32">
-          {monthlyData.map((md, idx) => (
-            <div key={idx} className="flex-1 h-full flex flex-col justify-end">
-              <StackedBar dist={md.distribution} height={120} />
-              {idx % 3 === 0 && (
-                <div className="text-[9px] text-white/30 text-center mt-1">
-                  {md.month}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <div className="flex gap-1 items-end h-32 min-w-[400px]">
+            {monthlyData.map((md, idx) => (
+              <div key={idx} className="flex-1 h-full flex flex-col justify-end">
+                <StackedBar dist={md.distribution} height={120} />
+                {idx % 3 === 0 && (
+                  <div className="text-[9px] text-white/30 text-center mt-1">
+                    {md.month}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-4 mt-3 justify-center">
+        <div className="flex gap-3 md:gap-4 mt-3 justify-center flex-wrap">
           {STATE_KEYS.map((s) => (
             <div key={s} className="flex items-center gap-1">
               <div
@@ -368,7 +370,7 @@ function BacktestTab({ data }: { data: PredictionData }) {
       </div>
 
       {/* 선택된 horizon 정확도 강조 */}
-      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-4 flex items-center justify-between">
+      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
           <span className="text-sm text-white/60">{HORIZON_LABELS[selectedHorizon]} 예측</span>
           <span className="text-xs text-white/30 ml-2">Walk-forward {periods.length}개 구간</span>
@@ -404,13 +406,13 @@ function BacktestTab({ data }: { data: PredictionData }) {
                 transition={{ delay: idx * 0.08 }}
                 className="bg-white/[0.02] rounded-xl border border-white/10 p-4"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-white/30 bg-white/5 px-2 py-0.5 rounded">
+                <div className="flex flex-col gap-1.5 mb-3 md:flex-row md:items-center md:justify-between">
+                  <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+                    <span className="text-[10px] md:text-xs font-mono text-white/30 bg-white/5 px-2 py-0.5 rounded">
                       Train {period.train_months}
                     </span>
                     <span className="text-white/20">→</span>
-                    <span className="text-xs text-white/60">
+                    <span className="text-[10px] md:text-xs text-white/60">
                       Month {period.test_month} ({HORIZON_LABELS[selectedHorizon]})
                     </span>
                   </div>
@@ -430,7 +432,7 @@ function BacktestTab({ data }: { data: PredictionData }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <div className="text-[10px] text-white/30 mb-1.5">실제</div>
                     <HorizontalDistBars dist={period.actual_distribution} />
@@ -512,10 +514,10 @@ function FutureTab({ data }: { data: PredictionData }) {
   return (
     <div className="space-y-6">
       {/* Controls */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-white">미래 예측 시뮬레이션</h2>
-          <p className="text-sm text-white/40">
+          <p className="text-xs md:text-sm text-white/40">
             현재 고객 기반 → {HORIZON_LABELS[selectedHorizon]} 등급 분포 예측
           </p>
         </div>
@@ -524,7 +526,7 @@ function FutureTab({ data }: { data: PredictionData }) {
             <button
               key={h}
               onClick={() => setSelectedHorizon(h)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-all ${
+              className={`px-3 py-2 md:py-1.5 rounded text-xs font-medium transition-all min-h-[44px] md:min-h-0 ${
                 selectedHorizon === h
                   ? "bg-white/15 text-white"
                   : "bg-white/5 text-white/40 hover:text-white/60"
@@ -537,12 +539,12 @@ function FutureTab({ data }: { data: PredictionData }) {
       </div>
 
       {/* Scenario selector */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
         {Object.entries(SCENARIO_LABELS).map(([key, { label, desc }]) => (
           <button
             key={key}
             onClick={() => setSelectedScenario(key)}
-            className={`text-left p-3 rounded-xl border transition-all ${
+            className={`text-left p-3 rounded-xl border transition-all min-h-[44px] ${
               selectedScenario === key
                 ? "bg-white/10 border-white/25"
                 : "bg-white/[0.02] border-white/10 hover:border-white/15"
@@ -555,8 +557,8 @@ function FutureTab({ data }: { data: PredictionData }) {
       </div>
 
       {/* Distribution comparison */}
-      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-5">
-        <div className="grid grid-cols-2 gap-8">
+      <div className="bg-white/[0.02] rounded-xl border border-white/10 p-4 md:p-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Current */}
           <div>
             <h3 className="text-sm font-medium text-white/60 mb-4">현재 분포 (Month {data.future.current_month})</h3>
@@ -605,7 +607,7 @@ function FutureTab({ data }: { data: PredictionData }) {
           <h3 className="text-sm font-medium text-white/60 mb-3">
             캠페인 효과 요약 ({HORIZON_LABELS[selectedHorizon]})
           </h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
             <MetricCard
               label="위험+이탈 비율"
               value={`${(scenarioRC * 100).toFixed(1)}%`}
@@ -630,8 +632,8 @@ function FutureTab({ data }: { data: PredictionData }) {
         <h3 className="text-sm font-medium text-white/60 mb-3">
           시나리오 비교 ({HORIZON_LABELS[selectedHorizon]})
         </h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto -mx-1 px-1">
+          <table className="w-full text-sm min-w-[500px]">
             <thead>
               <tr className="border-b border-white/10">
                 <th className="text-left py-2 text-white/40 font-medium">시나리오</th>
